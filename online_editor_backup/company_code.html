@@ -1,0 +1,93 @@
+<!-- 公司代码信息--2020.7.27--ygc -->
+<style>
+</style>
+
+<section id="toolbar"></section>
+
+<section type="template" id="template">
+<a-row>
+    <a-col>
+        <a-title key="title1595312002433" data-name="公司代码信息" data-name_i18n='{"en":"公司代码相关维护"}'></a-title>
+    </a-col>
+</a-row>
+<a-row>
+    <a-col>
+        <a-create-by key="creater" data-name="创建人"></a-create-by>
+    </a-col>
+    <a-col>
+        <a-created-time key="createdTime" data-name="创建时间"></a-created-time>
+    </a-col>
+    <a-col>
+        <a-sequence-no key="sequenceNo" data-name="单据号"></a-sequence-no>
+    </a-col>
+</a-row>
+<a-row>
+    <a-col>
+        <a-user-selector key="company_name" data-name="公司名称" data-data-item-name="company_name" data-dept-visible="org" data-default-value="[]" data-org-root="[]"></a-user-selector>
+    </a-col>
+    <a-col>
+        <a-text key="company_code" data-name="公司代码" data-data-item-name="company_code"></a-text>
+    </a-col>
+</a-row>
+<a-row>
+    <a-col>
+        <a-sheet key="company_bank" data-name="银行信息" data-data-item-name="company_bank" data-rows="1">
+            <a-columns>
+                <a-text key="bank_name" width="150" data-name="付款银行" data-data-item-name="bank_name"></a-text>
+                <a-text key="bank_account" width="150" data-name="银行账号" data-data-item-name="bank_account"></a-text>
+                <a-radio key="if_default" width="150" data-name="是否为默认付款账号" data-data-item-name="if_default" data-default-value="否" data-options="是;否"></a-radio>
+            </a-columns>
+        </a-sheet>
+    </a-col>
+</a-row>
+</section>
+
+<script id="customScript">
+    (function(form){
+        /**
+         * 用户自定义JS区域
+         */
+        /**
+         * 事件绑定，form.on
+         * @param eventType 事件类型
+         * @params function 事件
+         * @param  cover    true, false 是否覆盖root的生命周期 默认不覆盖 
+         */
+        //数据加载后，渲染之前，this为window
+        form.on('onLoad',function(data, dataPermission){},'cover');
+        //渲染完成后
+        form.on('onRendered',function(data){});
+        //内置校验完成后，返回false阻止提交
+        form.on('onValidate',function(action,data){});
+        //操作前（包含自定义按钮）执行，返回false阻止按钮操作
+        form.on('onPreAction',function(action,data){
+            // 对银行信息子表的是否为默认付款账号做提交前的校验限制：不能不选是/不能选超过一个是
+            if(action.code === 'submit' || action.code === 'save'){
+                let selectedNum = 0;
+                let filterArr = this.company_bank.value;
+                for(let i = 0;i < filterArr.length;i++){
+                    if(filterArr[i].if_default === '是'){
+                        selectedNum += 1;
+                    }
+                }
+                if(selectedNum === 0){
+                    this.$message.error('未勾选默认银行付款账号！');
+                    for(let aci = 0; aci < this.actions.length; aci++){
+                        this.actions[aci].disabled = false;
+                    }
+                    return false;
+                }else if(selectedNum > 1){
+                    this.$message.error('超出默认银行付款账号可勾选数量！');
+                    for(let aci = 0; aci < this.actions.length; aci++){
+                        this.actions[aci].disabled = false;
+                    }
+                    return false;
+                }
+            }
+        });
+        //自定义按钮执行
+        form.on('onCustomAction',function(action,data){});
+        //操作完成后执行
+        form.on('onActionDone',function(action,data,httpRes){});
+    })
+</script>

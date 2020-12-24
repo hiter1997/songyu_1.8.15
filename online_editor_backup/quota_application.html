@@ -1,0 +1,505 @@
+<style>
+</style>
+
+<section id="toolbar"></section>
+
+<section type="template" id="template">
+<a-row>
+    <a-col>
+        <a-title key="title1602569055009" data-name="额度申请" data-name_i18n='{"en":"额度申请"}'></a-title>
+    </a-col>
+</a-row>
+<a-row>
+    <a-col>
+        <a-create-by key="creater" data-name="创建人"></a-create-by>
+    </a-col>
+    <a-col>
+        <a-created-time key="createdTime" data-name="创建时间"></a-created-time>
+    </a-col>
+    <a-col>
+        <a-sequence-no key="sequenceNo" data-name="单据号" data-prefix="EDSQ" data-max-length="8"></a-sequence-no>
+    </a-col>
+</a-row>
+<a-row>
+    <a-col>
+        <a-user-selector key="user_name" data-name="经办人" data-data-item-name="user_name" data-readonly-formula="true" data-dept-visible="user" data-default-value="null" data-org-root="[]"></a-user-selector>
+    </a-col>
+    <a-col>
+        <a-text key="job_code" data-name="工号" data-data-item-name="job_code" data-readonly-formula="true"></a-text>
+    </a-col>
+    <a-col>
+        <a-user-selector key="department" data-name="部门" data-data-item-name="department" data-readonly-formula="true" data-dept-visible="org" data-default-value="null" data-org-root="[]"></a-user-selector>
+    </a-col>
+</a-row>
+<a-row>
+    <a-col>
+        <a-dropdown key="pay_type" data-name="付款审批类型" data-data-item-name="pay_type" data-readonly-formula="true" data-options="选项1;选项2;选项3"></a-dropdown>
+    </a-col>
+    <a-col>
+        <a-user-selector key="company" data-name="所在公司" data-data-item-name="company" data-readonly-formula="true" data-dept-visible="org" data-default-value="null" data-org-root="[]"></a-user-selector>
+    </a-col>
+    <a-col>
+        <a-text key="position" data-name="岗位" data-data-item-name="position" data-readonly-formula="true"></a-text>
+    </a-col>
+</a-row>
+<a-row>
+    <a-col>
+        <a-text key="source_id" data-name="来源单据id" data-visible="false" data-data-item-name="source_id"></a-text>
+    </a-col>
+    <a-col>
+        <a-text key="source_type" data-name="来源单据类型" data-visible="false" data-data-item-name="source_type"></a-text>
+    </a-col>
+</a-row>
+<a-row>
+    <a-col>
+        <a-text key="recipient_name" data-name="收方户名" data-data-item-name="recipient_name" data-readonly-formula="true"></a-text>
+    </a-col>
+    <a-col>
+        <a-text key="recipient_bank" data-name="收方银行" data-data-item-name="recipient_bank" data-readonly-formula="true"></a-text>
+    </a-col>
+    <a-col>
+        <a-text key="recipient_bank_code" data-name="收方银行账号" data-data-item-name="recipient_bank_code" data-readonly-formula="true"></a-text>
+    </a-col>
+</a-row>
+<a-row>
+    <a-col>
+        <a-dropdown key="reimbursement_type" data-name="报销/付款类型" data-data-item-name="reimbursement_type" data-readonly-formula="true" data-default-value="普通报销-非行政类" data-options="普通报销-非行政类;普通报销-行政类;普通报销-提成类;日清差旅报销;日清招待费;销售台量招待费;赠送报销"></a-dropdown>
+    </a-col>
+</a-row>
+<a-row>
+    <a-col>
+        <a-dropdown key="payment_business" data-name="付款业务事项" data-data-item-name="payment_business" data-display-formula="{pay_type} == '非费用类'" data-readonly-formula="true" data-options="选项1;选项2;选项3"></a-dropdown>
+    </a-col>
+</a-row>
+<a-row>
+    <a-col>
+        <a-textarea key="reimbursement_reason" data-name="报销/付款事由" data-data-item-name="reimbursement_reason" data-readonly-formula="true"></a-textarea>
+    </a-col>
+</a-row>
+<a-row>
+    <a-col>
+        <a-date key="apply_yearmonth" data-name="申请年月" data-data-item-name="apply_yearmonth" data-display-formula="{reimbursement_type} == '日清差旅报销' || {reimbursement_type} == '日清招待费' || {reimbursement_type} == '销售台量招待费' || {reimbursement_type} == '赠送报销'" data-readonly-formula="true" data-format="YYYY-MM"></a-date>
+    </a-col>
+    <a-col>
+        <a-number key="days" data-name="天数" data-data-item-name="days" data-display-formula="{reimbursement_type} == '日清差旅报销' || {reimbursement_type} == '日清招待费' || {reimbursement_type} == '销售台量招待费' || {reimbursement_type} == '赠送报销'" data-readonly-formula="true"></a-number>
+    </a-col>
+</a-row>
+<a-row>
+    <a-col>
+        <a-number key="apply_amount" data-name="申请金额(元)" data-visible="false" data-data-item-name="apply_amount" data-display-formula="{pay_type} == '非费用类'" data-readonly-formula="true" data-format="percentile"></a-number>
+    </a-col>
+    <a-col>
+        <a-text key="amount_cap" data-name="大写" data-visible="false" data-data-item-name="amount_cap" data-display-formula="{pay_type} == '非费用类'" data-readonly-formula="true"></a-text>
+    </a-col>
+</a-row>
+<a-row>
+    <a-col>
+        <a-text key="company_code" data-name="公司代码" data-visible="false" data-data-item-name="company_code"></a-text>
+    </a-col>
+</a-row>
+<a-row>
+    <a-col>
+        <a-dropdown key="giftfee_type" data-name="赠送费用类型" data-data-item-name="giftfee_type" data-display-formula="{reimbursement_type} == '赠送报销'" data-readonly-formula="true" data-default-value="销售运费" data-options="销售运费;油卡费用;其他费用;配件费用;中介费用"></a-dropdown>
+    </a-col>
+</a-row>
+<a-row>
+    <a-col>
+        <a-number key="money" data-name="累计超标金额" data-data-item-name="money"></a-number>
+    </a-col>
+</a-row>
+<a-row>
+    <a-col>
+        <a-textarea key="reason" data-name="额度申请说明" data-data-item-name="reason"></a-textarea>
+    </a-col>
+</a-row>
+<a-row>
+    <a-col>
+        <a-group-title key="group1602569799150" data-name="费用报销明细"></a-group-title>
+    </a-col>
+</a-row>
+<a-row>
+    <a-col>
+        <a-sheet key="reimbursement_detail_apply" data-name="费用报销明细" data-data-item-name="reimbursement_detail_apply" data-rows="0" data-editable="false" data-importable="false" data-show-total="true" data-display-formula="{reimbursement_type} == '日清差旅报销' || {reimbursement_type} == '日清招待费' || {reimbursement_type} == '销售台量招待费' || {reimbursement_type} == '赠送报销'">
+            <a-action-group>
+            </a-action-group>
+            <a-columns>
+                <a-dropdown key="expenses_first" width="150" data-name="一级费用" data-data-item-name="expenses_first" data-readonly-formula="true" data-default-value="选项1" data-options="选项1;选项2;选项3" data-empty-value=" "></a-dropdown>
+                <a-dropdown key="expenses_second" width="150" data-name="二级费用" data-data-item-name="expenses_second" data-readonly-formula="true" data-default-value="选项1" data-options="选项1;选项2;选项3" data-empty-value=" "></a-dropdown>
+                <a-dropdown key="expenses_third" width="150" data-name="三级费用" data-data-item-name="expenses_third" data-readonly-formula="true" data-default-value="选项1" data-options="选项1;选项2;选项3" data-empty-value=" "></a-dropdown>
+                <a-text key="expenses_describe" width="150" data-name="费用描述" data-data-item-name="expenses_describe" data-readonly-formula="true"></a-text>
+                <a-number key="expenses_amount_old" width="150" data-name="原始标准额度" data-data-item-name="expenses_amount_old" data-readonly-formula="true"></a-number>
+                <a-number key="expenses_amount" width="150" data-name="标准额度" data-data-item-name="expenses_amount" data-required-formula="'true'" data-verify-formula='{"type":2,"rule":"=","dialogBox":1,"select":"reimbursement_detail_apply.review_amount","prompt":"%E7%94%B3%E8%AF%B7%E7%9A%84%E6%A0%87%E5%87%86%E9%A2%9D%E5%BA%A6%E4%B8%8D%E8%83%BD%E5%A4%A7%E4%BA%8E%E6%88%96%E5%B0%8F%E4%BA%8E%E5%A4%8D%E6%A0%B8%E9%87%91%E9%A2%9D"}'></a-number>
+                <a-number key="review_amount" width="150" data-name="复核金额" data-data-item-name="review_amount" data-readonly-formula="true"></a-number>
+                <a-dropdown key="is_adopt" width="150" data-name="是否通过" data-data-item-name="is_adopt" data-readonly-formula="true" data-default-value="是" data-options="是;否"></a-dropdown>
+                <a-text key="reason" width="150" data-name="原因" data-data-item-name="reason" data-readonly-formula="true"></a-text>
+                <a-number key="invoice_count" width="150" data-name="发票数量" data-data-item-name="invoice_count" data-readonly-formula="true"></a-number>
+                <a-text key="model" width="150" data-name="机型" data-data-item-name="model" data-readonly-formula="true"></a-text>
+                <a-text key="category" width="150" data-name="产品名称" data-data-item-name="category" data-readonly-formula="true"></a-text>
+                <a-text key="brand" width="150" data-name="品牌" data-data-item-name="brand" data-readonly-formula="true"></a-text>
+                <a-text key="contract_no" width="150" data-name="合同号" data-data-item-name="contract_no" data-readonly-formula="true"></a-text>
+                <a-text key="salesman_name" width="150" data-name="业务员姓名" data-data-item-name="salesman_name" data-readonly-formula="true"></a-text>
+                <a-text key="customer_name" width="150" data-name="客户名称" data-data-item-name="customer_name" data-readonly-formula="true"></a-text>
+                <a-text key="product_number" width="150" data-name="机号" data-data-item-name="product_number" data-readonly-formula="true"></a-text>
+                <a-text key="deal_date" width="150" data-name="提机日期" data-data-item-name="deal_date" data-readonly-formula="true"></a-text>
+                <a-text key="product_id" width="150" data-name="产品id" data-data-item-name="product_id" data-readonly-formula="true"></a-text>
+                <a-dropdown key="area" width="150" data-name="地区分类" data-data-item-name="area" data-readonly-formula="true" data-default-value="三类地区" data-options="一类地区;二类地区;三类地区"></a-dropdown>
+                <a-text key="real_date" width="150" data-name="日清时间" data-data-item-name="real_date" data-display-formula="{reimbursement_type} == '日清差旅报销'"></a-text>
+                <a-text key="position_origin" width="150" data-name="出发地" data-data-item-name="position_origin" data-display-formula="{reimbursement_type} == '日清差旅报销'"></a-text>
+                <a-text key="position_destination" width="150" data-name="到达地" data-data-item-name="position_destination" data-display-formula="{reimbursement_type} == '日清差旅报销'"></a-text>
+                <a-text key="class_code" width="150" data-name="class_code" data-visible="false" data-data-item-name="class_code" data-readonly-formula="true"></a-text>
+                <a-text key="detail_id" width="150" data-name="明细子表id" data-visible="false" data-data-item-name="detail_id" data-readonly-formula="true"></a-text>
+            </a-columns>
+            <a-totals>
+                <a-total key="stat-Number1602570146637" column-key="expenses_amount" data-name="统计" data-data-item-name="" data-widget-type="" data-statistic-mode="sum" data-format="integer"></a-total>
+                <a-total key="stat-Number1602570187522" column-key="review_amount" data-name="统计" data-data-item-name="" data-widget-type="" data-statistic-mode="sum" data-format="integer"></a-total>
+                <a-total key="stat-Number1602570318741" column-key="invoice_count" data-name="统计" data-data-item-name="" data-widget-type="" data-statistic-mode="sum" data-format="integer"></a-total>
+                <a-total key="stat-Number1604890888048" column-key="expenses_amount_old" data-name="统计" data-data-item-name="" data-widget-type="" data-statistic-mode="sum" data-format="integer"></a-total>
+            </a-totals>
+        </a-sheet>
+    </a-col>
+</a-row>
+<a-row>
+    <a-col>
+        <a-group-title key="group1602569904921" data-name="费用报销合计"></a-group-title>
+    </a-col>
+</a-row>
+<a-row>
+    <a-col>
+        <a-sheet key="reimbursement_detail_total_a" data-name="费用报销合计" data-data-item-name="reimbursement_detail_total_a" data-rows="1" data-editable="false" data-importable="false" data-show-total="true">
+            <a-action-group>
+            </a-action-group>
+            <a-columns>
+                <a-dropdown key="expenses_first" width="150" data-name="一级费用" data-data-item-name="expenses_first" data-readonly-formula="true" data-default-value="选项1" data-options="选项1;选项2;选项3"></a-dropdown>
+                <a-dropdown key="expenses_second" width="150" data-name="二级费用" data-data-item-name="expenses_second" data-readonly-formula="true" data-default-value="选项1" data-options="选项1;选项2;选项3"></a-dropdown>
+                <a-dropdown key="expenses_third" width="150" data-name="三级费用" data-data-item-name="expenses_third" data-readonly-formula="true" data-default-value="选项1" data-options="选项1;选项2;选项3"></a-dropdown>
+                <a-text key="expenses_describe" width="150" data-name="费用描述" data-data-item-name="expenses_describe" data-readonly-formula="true"></a-text>
+                <a-number key="expenses_amount_old" width="150" data-name="原始标准额度" data-data-item-name="expenses_amount_old" data-readonly-formula="true"></a-number>
+                <a-number key="expenses_amount" width="150" data-name="标准额度" data-data-item-name="expenses_amount" data-required-formula="'true'" data-verify-formula='{"type":2,"rule":"=","dialogBox":1,"select":"reimbursement_detail_total_a.review_amount","prompt":"%E7%94%B3%E8%AF%B7%E7%9A%84%E6%A0%87%E5%87%86%E9%A2%9D%E5%BA%A6%E4%B8%8D%E8%83%BD%E5%A4%A7%E4%BA%8E%E6%88%96%E5%B0%8F%E4%BA%8E%E5%A4%8D%E6%A0%B8%E9%87%91%E9%A2%9D"}'></a-number>
+                <a-number key="review_amount" width="150" data-name="复核金额" data-data-item-name="review_amount" data-readonly-formula="true"></a-number>
+                <a-dropdown key="is_adopt" width="150" data-name="是否通过" data-data-item-name="is_adopt" data-readonly-formula="true" data-default-value="是" data-options="是;否"></a-dropdown>
+                <a-text key="reason" width="150" data-name="原因" data-data-item-name="reason" data-readonly-formula="true"></a-text>
+                <a-number key="invoice_count" width="150" data-name="发票数量" data-data-item-name="invoice_count" data-readonly-formula="true"></a-number>
+                <a-text key="model" width="150" data-name="机型" data-data-item-name="model" data-readonly-formula="true"></a-text>
+                <a-text key="category" width="150" data-name="产品名称" data-data-item-name="category" data-readonly-formula="true"></a-text>
+                <a-text key="brand" width="150" data-name="品牌" data-data-item-name="brand" data-readonly-formula="true"></a-text>
+                <a-text key="contract_no" width="150" data-name="合同号" data-data-item-name="contract_no" data-readonly-formula="true"></a-text>
+                <a-dropdown key="area" width="150" data-name="地区分类" data-data-item-name="area" data-readonly-formula="true" data-default-value="三类地区" data-options="一类地区;二类地区;三类地区"></a-dropdown>
+                <a-text key="class_code" width="150" data-name="class_code" data-data-item-name="class_code" data-readonly-formula="true"></a-text>
+                <a-number key="cumulative" width="150" data-name="累计数" data-data-item-name="cumulative" data-readonly-formula="true" data-default-value="1" data-placeholder=""></a-number>
+                <a-text key="sum_id" width="150" data-name="合计子表id" data-visible="false" data-data-item-name="sum_id" data-readonly-formula="true"></a-text>
+            </a-columns>
+            <a-totals>
+                <a-total key="stat-Number1602571109530" column-key="expenses_amount" data-name="统计" data-data-item-name="" data-widget-type="" data-statistic-mode="sum" data-format="integer"></a-total>
+                <a-total key="stat-Number1602571133347" column-key="review_amount" data-name="统计" data-data-item-name="" data-widget-type="" data-statistic-mode="sum" data-format="integer"></a-total>
+                <a-total key="stat-Number1602571215078" column-key="invoice_count" data-name="统计" data-data-item-name="" data-widget-type="" data-statistic-mode="sum" data-format="integer"></a-total>
+                <a-total key="stat-Number1602571365353" column-key="cumulative" data-name="统计" data-data-item-name="" data-widget-type="" data-statistic-mode="sum" data-format="integer"></a-total>
+                <a-total key="stat-Number1604890969238" column-key="expenses_amount_old" data-name="统计" data-data-item-name="" data-widget-type="" data-statistic-mode="sum" data-format="integer"></a-total>
+            </a-totals>
+        </a-sheet>
+    </a-col>
+</a-row>
+</section>
+
+<script id="customScript">
+    var returnData = {};
+    var isMobile = false;
+    var objectId = '';
+    var objectType = '';
+    function isIOS () {
+        var UA = navigator.userAgent;
+        if (UA.match(/iPad/) || UA.match(/iPhone/) || UA.match(/iPod/)) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+    (function(form){
+        /**
+         * 用户自定义JS区域
+         */
+        /**
+         * 事件绑定，form.on
+         * @param eventType 事件类型
+         * @params function 事件
+         * @param  cover    true, false 是否覆盖root的生命周期 默认不覆盖 
+         */
+        //数据加载后，渲染之前，this为window
+        form.on('onLoad',function(data, dataPermission){
+            isMobile = window.location.href.includes("mobile");
+            if(isMobile){
+                objectId = window.location.hash.split('%3D')[1].split('&')[0];
+                objectType = window.location.hash.split('?')[1].split('=')[3];
+            }else{
+                objectId = window.location.search.split('?')[1].split('%3F')[2].split('%3D')[1].split('&')[0];
+                objectType = window.location.search.split('?')[1].split('%3F')[2].split('%3D')[1].split('&')[1].split('=')[1];
+            }
+            console.log(objectId, 'objectId', objectType);
+            for(let i = 0;i < this.actions.length;i++){
+                if(this.actions[i].code === 'submit'){
+                    if(objectType === '1'){
+                        axios.get('http://113.12.64.58:88/api/ext/v1/expenses/no_pass_data?objectId=' + objectId).then((res)=>{
+                            if(res && res.errcode === 0){
+                                returnData = res.data;
+                            }else{
+                                this.$message.error('获取基础数据失败');
+                            }
+                        }).catch(e=>{
+                            this.$message.error(e);
+                        });
+                    }else if(objectType === '2'){
+                        axios.get('http://113.12.64.58:88/api/ext/v1/approval/no_pass_data?objectId=' + objectId).then((res)=>{
+                            if(res && res.errcode === 0){
+                                returnData = res.data;
+                            }else{
+                                this.$message.error('获取基础数据失败');
+                            }
+                        }).catch(e=>{
+                            this.$message.error(e);
+                        });
+                    }
+                }
+            }
+        },'cover');
+        //渲染完成后
+        form.on('onRendered',function(data){
+            const self = this;
+            if(objectId !== ''){
+                self.source_id.value = objectId;
+            }
+            if(objectType !== ''){
+                self.source_type.value = objectType;
+            }
+            console.log(returnData, 'returnData', returnData.eimbursemen.userName);
+            if(Object.keys(returnData).length !== 0){
+                // 经办人 user_name
+                let userName = eval("(" + returnData.eimbursemen.userName + ")");
+                this.user_name.value = [{
+                    id: userName[0].id,
+                    type: userName[0].type,
+                    name: userName[0].name,
+                }];
+                // 工号 job_code
+                this.job_code.value = returnData.eimbursemen.jobCode;
+                // 部门 department
+                let departMent = eval("(" + returnData.eimbursemen.department + ")");
+                this.department.value = [{
+                    id: departMent[0].id,
+                    name: departMent[0].name,
+                    type: departMent[0].type
+                }];
+                // 付款审批类型 pay_type
+                this.pay_type.value = returnData.eimbursemen.payType;
+                // 所在公司 company
+                let comPany = eval("(" + returnData.eimbursemen.company + ")");
+                this.company.value = [{
+                    id: comPany[0].id,
+                    name: comPany[0].name,
+                    type: comPany[0].type
+                }];
+                // 岗位 position
+                this.position.value = returnData.eimbursemen.position;
+                // 收方户名 recipient_name
+                this.recipient_name.value = returnData.eimbursemen.recipientName;
+                // 收方银行 recipient_bank
+                this.recipient_bank.value = returnData.eimbursemen.recipientBank;
+                // 收方银行账号 recipient_bank_code
+                this.recipient_bank_code.value = returnData.eimbursemen.recipientBankCode;
+                // 报销事由 reimbursement_reason
+                this.reimbursement_reason.value = returnData.eimbursemen.reimbursementReason;
+                // 报销类型 reimbursement_type
+                this.reimbursement_type.value = returnData.eimbursemen.reimbursementType;
+                // 申请日期，在手机端和电脑端会有问题，溪岸转换下格式
+                let applyYearmonthFormat = returnData.eimbursemen.applyYearmonth;
+                if(isIOS()){
+                    applyYearmonthFormat = applyYearmonthFormat.replace(/-/g, '/');
+                }
+                // 公司代码 company_code
+                this.company_code.value = returnData.eimbursemen.companyCode;
+                // 通过不同的报销类型给不同的明细合计表及赠送费用类型赋值
+                if(this.reimbursement_type.value === '日清差旅报销' || this.reimbursement_type.value === '日清招待费' || this.reimbursement_type.value === '销售台量招待费'){
+                    // 申请年月 apply_yearmonth
+                    // this.apply_yearmonth.value = new Date(returnData.eimbursemen.applyYearmonth);
+                    this.apply_yearmonth.value = new Date(applyYearmonthFormat);
+                    // 天数 days
+                    this.days.value = parseInt(returnData.eimbursemen.days);
+                    // 明细子表 reimbursement_detail_apply
+                    detailAssign(1, returnData.detail, returnData.detail.length);
+                    // 合计子表 reimbursement_detail_total_a
+                    detailAssign(2, returnData.total, returnData.total.length);
+                }else if(this.reimbursement_type.value === '赠送报销'){
+                    // 申请年月 apply_yearmonth
+                    // this.apply_yearmonth.value = new Date(returnData.eimbursemen.applyYearmonth);
+                    this.apply_yearmonth.value = new Date(applyYearmonthFormat);
+                    // 天数 days
+                    this.days.value = parseInt(returnData.eimbursemen.days);
+                    // 赠送费用类型 giftfee_type
+                    this.giftfee_type.value = returnData.eimbursemen.giftfeeType;
+                    // 明细子表 reimbursement_detail_apply
+                    detailAssign(1, returnData.detail, returnData.detail.length);
+                    // 合计子表 reimbursement_detail_total_a
+                    detailAssign(2, returnData.total, returnData.total.length);
+                }else{
+                    // 三种普通报销类型-无明细子表
+                    // 合计子表 reimbursement_detail_total_a
+                    detailAssign(2, returnData.total, returnData.total.length);
+                }
+            }
+            // 子表赋值
+            function detailAssign(type, dataArr, dataLength){
+                // type: 1:明细表；2:合计表
+                if(type === 1){
+                    self.reimbursement_detail_apply.removeAllRow();
+                    for(let i = 0;i < dataLength;i++){
+                        self.reimbursement_detail_apply.insertRow(i, {});
+                        self.reimbursement_detail_apply.rows[i].value = {
+                            // 一级费用 expenses_first
+                            expenses_first: dataArr[i].expensesFirst,
+                            // 二级费用 expenses_second
+                            expenses_second: dataArr[i].expensesSecond,
+                            // 三级费用 expenses_third
+                            expenses_third: dataArr[i].expensesThird,
+                            // 费用描述 expenses_describe
+                            expenses_describe: dataArr[i].expensesDescribe,
+                            // 标准额度 expenses_amount
+                            expenses_amount: parseInt(dataArr[i].reviewAmount),
+                            // 复核金额 review_amount
+                            review_amount: parseInt(dataArr[i].reviewAmount),
+                            // 原始标准额度 expenses_amount_old
+                            expenses_amount_old: parseInt(dataArr[i].expensesAmount),
+                            // 是否通过 is_adopt
+                            is_adopt: dataArr[i].isAdopt,
+                            // 原因 reason
+                            reason: dataArr[i].reason,
+                            // 发票数量 invoice_count
+                            invoice_count: parseInt(dataArr[i].invoiceCount),
+                            // 机型 model
+                            model: dataArr[i].model,
+                            // 产品名称 category
+                            category: dataArr[i].category,
+                            // 品牌 brand
+                            brand: dataArr[i].brand,
+                            // 合同号 contract_no
+                            contract_no: dataArr[i].contractNo,
+                            // 业务员姓名 salesman_name
+                            salesman_name: dataArr[i].salesmanName,
+                            // 客户名称 customer_name
+                            customer_name: dataArr[i].customerName,
+                            // 机号 product_number
+                            product_number: dataArr[i].productNumber,
+                            // 提机日期 deal_date
+                            deal_date: dataArr[i].dealDate,
+                            // 产品id
+                            product_id: dataArr[i].productId,
+                            // 地区分类
+                            area: dataArr[i].area,
+                            // class_code
+                            class_code: dataArr[i].classCode,
+                            // 明细子表id
+                            detail_id: dataArr[i].id,
+                            // 日清时间 real_date
+                            real_date: dataArr[i].real_date,
+                            // 出发地 position_origin
+                            position_origin: dataArr[i].position_origin,
+                            // 到达地 position_destination
+                            position_destination: dataArr[i].position_destination
+                        }
+                    }
+                }else{
+                    // type === 2 合计表操作
+                    self.reimbursement_detail_total_a.removeAllRow();
+                    for(let j = 0;j < dataLength;j++){
+                        self.reimbursement_detail_total_a.insertRow(j, {});
+                        self.reimbursement_detail_total_a.rows[j].value = {
+                            // 一级费用 expenses_first
+                            expenses_first: dataArr[j].expensesFirst,
+                            // 二级费用 expenses_second
+                            expenses_second: dataArr[j].expensesSecond,
+                            // 三级费用 expenses_third
+                            expenses_third: dataArr[j].expensesThird,
+                            // 费用描述 expenses_describe
+                            expenses_describe: dataArr[j].expensesDescribe,
+                            // 标准额度 expenses_amount
+                            expenses_amount: parseInt(dataArr[j].reviewAmount),
+                            // 复核金额 review_amount
+                            review_amount: parseInt(dataArr[j].reviewAmount),
+                            // 原始标准额度 expenses_amount_old
+                            expenses_amount_old: (dataArr[j].expensesAmount || dataArr[j].expensesAmount == 0) ? parseInt(dataArr[j].expensesAmount) : parseInt(dataArr[j].reviewAmount),
+                            // 是否通过 is_adopt
+                            is_adopt: dataArr[j].isAdopt,
+                            // 原因 reason
+                            reason: dataArr[j].reason,
+                            // 发票数量 invoice_count
+                            invoice_count: parseInt(dataArr[j].invoiceCount),
+                            // 机型 model
+                            model: dataArr[j].model,
+                            // 产品名称 category
+                            category: dataArr[j].category,
+                            // 品牌 brand
+                            brand: dataArr[j].brand,
+                            // 合同号 contract_no
+                            contract_no: dataArr[j].contractNo,
+                            // 机号 product_number
+                            product_number: dataArr[j].productNumber,
+                            // 提机日期 deal_date
+                            deal_date: dataArr[j].dealDate,
+                            // 产品id product_id
+                            product_id: dataArr[j].productId,
+                            // 地区分类 area
+                            area: dataArr[j].area,
+                            // class_code class_code
+                            class_code: dataArr[j].classCode,
+                            // 累计数 cumulative
+                            cumulative: parseInt(dataArr[j].cumulative),
+                            // 合计子表id
+                            sum_id: dataArr[j].id
+                        }
+                    }
+                }
+            }
+            // function calApplyAmount(self){
+            //     let totalAllDatas = self.reimbursement_detail_total_a.value;
+            //     let totalAllLength = totalAllDatas.length;
+            //     let amountA = 0;
+            //     let amountB = 0;
+            //     for(let i = 0;i < totalAllLength;i++){
+
+            //     }
+            // }
+            console.log(data, 'data', this, 'this');
+        });
+        //内置校验完成后，返回false阻止提交
+        form.on('onValidate',function(action,data){});
+        //操作前（包含自定义按钮）执行，返回false阻止按钮操作
+        form.on('onPreAction',function(action,data){
+            if(action.code === 'save' || action.code === 'submit'){
+                if(this.reimbursement_type.value === '日清差旅报销' || this.reimbursement_type.value === '日清招待费' || this.reimbursement_type.value === '销售台量招待费'){
+                    let totalFee = 0;
+                    let detailFee = 0;
+                    for(let i = 0;i < this.reimbursement_detail_total_a.value.length;i++){
+                        if(this.reimbursement_detail_total_a.value[i].is_adopt === '否' && this.reimbursement_detail_total_a.value[i].expenses_third === '私车-油费（销售等一线人员）'){
+                            totalFee += (this.reimbursement_detail_total_a.value[i].expenses_amount - this.reimbursement_detail_total_a.value[i].expenses_amount_old);
+                        }
+                    }
+                    for(let j = 0;j < this.reimbursement_detail_apply.value.length;j++){
+                        if(this.reimbursement_detail_apply.value[j].is_adopt === '否'){
+                            detailFee += (this.reimbursement_detail_apply.value[j].expenses_amount - this.reimbursement_detail_apply.value[j].expenses_amount_old);
+                        }
+                    }
+                    this.money.value = totalFee + detailFee;
+                }else if(this.reimbursement_type.value === '普通报销-非行政类' || this.reimbursement_type.value === '普通报销-行政类' || this.reimbursement_type.value === '普通报销-提成类'){
+                    let totalFee = 0;
+                    for(let i = 0;i < this.reimbursement_detail_total_a.value.length;i++){
+                        if(this.reimbursement_detail_total_a.value[i].is_adopt === '否' && this.reimbursement_detail_total_a.value[i].expenses_third === '私车-油费（销售等一线人员）'){
+                            totalFee += (this.reimbursement_detail_total_a.value[i].expenses_amount - this.reimbursement_detail_total_a.value[i].expenses_amount_old);
+                        }
+                    }
+                    this.money.value = totalFee;
+                }
+            }
+        });
+        //自定义按钮执行
+        form.on('onCustomAction',function(action,data){});
+        //操作完成后执行
+        form.on('onActionDone',function(action,data,httpRes){});
+    })
+</script>

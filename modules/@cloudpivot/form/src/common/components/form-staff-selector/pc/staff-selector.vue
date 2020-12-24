@@ -1,0 +1,104 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-04-22 14:02:14
+ * @LastEditTime: 2020-05-21 15:15:09
+ * @LastEditors: Fan
+ * @Description: In User Settings Edit
+ * @FilePath: \frontend\modules\@cloudpivot\form\src\common\components\form-staff-selector\pc\staff-selector.vue
+ -->
+
+<template>
+
+  <SmartOrg
+    :org="org"
+    :isExport="options.isExport"
+    :selectOrg="options.selectOrg"
+    :selectUser="options.selectUser"
+    :showModel="options.showModel"
+    :showSelect="options.showSelect"
+    :isMulpitle="options.mulpitle"
+    :title="options.title"
+    :keepDeptIds="keepDeptIds"
+    :selectedData="selected"
+    :searchData="searchList"
+    :orgName="options.key"
+    :selectPlaceholder="options.placeholder || placeholder"
+    :showPart="onlyForm"
+    :allowRecursion="false"
+    :locale="locale"
+    :disabled="disabled"
+    :showLoading="showLoading"
+    @focus="treeFocus"
+    @onClickBreadcrumb="onClickBreadcrumb"
+    @change="onChange"
+    @onSearch="onSearch"
+    @onClickTrunBack="onClickTrunBack"
+    @onClickNextHierarchy="onClickNextHierarchy"
+    @ok="onOk"
+    @cancle="onCancle"
+  ></SmartOrg>
+
+</template>
+
+<script lang="ts">
+import { Component, Vue, Prop, Watch, Inject } from "vue-property-decorator";
+
+import SmartOrg from "./smart-org/smartOrg.vue";
+
+import { StaffSelectorBase } from '../staff-selector-base';
+
+@Component({
+  name: "staff-selector",
+  components: {
+    SmartOrg
+  },
+  model: {
+    event: "change",
+    prop: "value"
+  }
+})
+export default class StaffSelector extends StaffSelectorBase {
+  
+
+  treeFocus() {
+    super.treeFocus();
+  }
+
+  mounted() {
+    console.log( this.options, 'options' );
+  }
+  // 树-返回
+  onClickTrunBack() {
+    super.onClickTrunBack();
+  }
+
+  // 树-下一级
+  onClickNextHierarchy(val: any) {
+    super.onClickNextHierarchy(val);
+  }
+
+  onClickBreadcrumb(val: any) {
+    super.onClickBreadcrumb(val);
+  }
+
+  onChange(items: any[]) {
+    super.onChange(items);
+  }
+
+  async onOk(items: any[]) {
+    super.onOk(items);
+  }
+
+  onCancle() {
+    super.onCancle();
+  }
+
+  onSearch(name: string) {
+    super.onSearch(name);
+  }
+}
+</script>
+
+<style lang="less" scoped>
+</style>
+
