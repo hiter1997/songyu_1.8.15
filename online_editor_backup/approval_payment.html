@@ -2707,7 +2707,7 @@
             //         this.reimbursement_type.options.options = '普通报销-非行政类;普通报销-行政类;普通报销-提成类;日清差旅报销;日清招待费;销售台量招待费;赠送报销';
             //         this.reimbursement_type.value = '普通报销-非行政类';
             //     }else if(change.value === '非费用类'){
-            //         this.reimbursement_type.options.options = '业务借款;非业务借款;机械板块内借款、往来款(含超期续借审批);机械板块外部借款(含超期续借审批)、对外担保;支付各类代收款;代客户垫付各类融资、按揭款;退客户款项;支付采购货款-主机;支付采购货款-配件;支付采购运费-主机;支付采购运费-配件;月度工资(含绩效);固定资产采购;装修款;场地租赁;预付房租、物业';
+            //         this.reimbursement_type.options.options = '业务借款;非业务借款;机械板块内借款、往来款(含超期续借审批);机械板块外部借款(含超期续借审批)、对外担保;支付各类代收款;代客户垫付各类融资、按揭款;退客户款项;支付采购货款-主机;支付采购货款-配件;支付采购运费-主机;支付采购运费-配件;月度工资(含绩效);固定资产采购;装修款;场地租赁;其他通用业务';
             //         this.reimbursement_type.value = '业务借款';
             //     }
             // });
@@ -3672,6 +3672,49 @@
             // 判断是否是进行中财务主办会计点同意按钮，如果点了同意按钮后再加签给别的人，存是否已财务主办会计同意为是，是的情况下，加签后不会再调用detailToERP方法
             if(action.code === 'agree' && this.workflowInfo.activityName === '财务中心会计'){
                 this.group_approval.value = '是';
+            }
+            // 财务主办会计、财务中心审核经理节点审批同意前校验ERP子表是否借贷不平
+            // PK:21+31+01+11=40-50对应金额是否符合此计算规则
+            if(action.code === 'agree' && (this.workflowInfo.activityName === '财务中心会计' || this.workflowInfo.activityName === '财务中心核算经理')){
+                if(this.reimbursement_erp_2.value.length > 0){
+                    let items_40 = 0;
+                    let items_31 = 0;
+                    let items_50 = 0;
+                    let items_21 = 0;
+                    let items_01 = 0;
+                    let items_11 = 0;
+                    this.reimbursement_erp_2.value.forEach((item, index) => {
+                        switch(item.pk){
+                            case '40(借方)':
+                                items_40 += item.amount;
+                            break;
+                            case '31(贷方)':
+                                items_31 += item.amount;
+                            break;
+                            case '50(贷方)':
+                                items_50 += item.amount;
+                            break;
+                            case '21(贷方)':
+                                items_21 += item.amount;
+                            break;
+                            case '01(借方)':
+                                items_01 += item.amount;
+                            break;
+                            case '11(贷方)':
+                                items_11 += item.amount;
+                            break;
+                        }
+                    })
+                    let left_value = Number((items_21 + items_31 + items_01 + items_11).toFixed(2));
+                    let right_value = Number((items_40 - items_50).toFixed(2));
+                    if(left_value !== right_value){
+                        this.$message.error('借贷不平，请检查ERP应付凭证信息子表(PK:21+31+01+11=40-50)');
+                        for(let aci = 0; aci < this.actions.length; aci++){
+                            this.actions[aci].disabled = false;
+                        }
+                        return false;
+                    }
+                }
             }
         });
         //自定义按钮执行
