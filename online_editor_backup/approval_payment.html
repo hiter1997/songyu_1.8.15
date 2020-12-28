@@ -477,7 +477,6 @@
             <a-action-group>
             </a-action-group>
             <a-columns>
-                <a-dropdown key="pk" width="150" data-name="PK" data-data-item-name="pk" data-default-value="40(借方)" data-options="40(借方);31(贷方);50(贷方);21(贷方);01(借方);11(贷方);70(借方)"></a-dropdown>
                 <a-text key="expenses_introduce" width="150" data-name="费用说明" data-data-item-name="expenses_introduce"></a-text>
                 <a-text key="ledger_account" width="150" data-name="总账科目" data-data-item-name="ledger_account"></a-text>
                 <a-text key="commit_project" width="150" data-name="承诺项目" data-data-item-name="commit_project"></a-text>
@@ -494,6 +493,7 @@
                 <a-text key="serial_number" width="150" data-name="序列号" data-data-item-name="serial_number"></a-text>
                 <a-text key="materiel" width="150" data-name="物料" data-data-item-name="materiel"></a-text>
                 <a-text key="repair_code" width="150" data-name="维修单号" data-data-item-name="repair_code"></a-text>
+                <a-dropdown key="pk" width="150" data-name="PK" data-visible="false" data-data-item-name="pk" data-default-value="40(借方)" data-options="40(借方);31(贷方);50(贷方);21(贷方);01(借方);11(贷方);70(借方)"></a-dropdown>
             </a-columns>
         </a-sheet>
     </a-col>
@@ -2195,7 +2195,6 @@
         }
         // 调智慧松宇销售台量招待费费控接口
         function getFeeCharged(self, dataId, companyCode, jobCode, year, month){
-            let loading = self.$message.loading('数据加载中...', 0);
             let out_token = 'JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1OTY0NDI3NTQsImlzcyI6InNvbnl1IiwiZGF0YSI6eyJ1aWQiOiJkaW5ndGFsayJ9fQ.wdcdnNxU_QQNM6jTayo_5CYuuk5ifUhD4QTUTsqK7B0';
             window.localStorage.setItem('out_token', out_token);
             axios({
@@ -2207,6 +2206,7 @@
                 },
             }).then(res=>{
                 console.log(res, '费控接口返回');
+                let loading = self.$message.loading('数据加载中...', 0);
                 if(res && res.DETAL.length){
                     let returnDetal = res.DETAL;
                     let returnSUBJECT = res.SUBJECT;
@@ -2240,6 +2240,7 @@
                     }
                     // 接口调用完之后调用克克接口获取招待费报销的金额
                     getFeeMoney(self, dataId, returnSUBJECT);
+                    loading();
                 }else{
                     loading();
                     self.$message.warning('未获取到当前月份的数据');
@@ -2302,7 +2303,6 @@
                     list: paramArr,
                     position: position
                 };
-                let loading = this.$message.loading('数据加载中...', 0);
                 axios.post('http://113.12.64.58:88/api/ext/v1/approval/getMoney', paramData).then(res=>{
                     if(res && res.errcode === 0){
                         let resDetail = res.data.detailList;
@@ -2320,10 +2320,8 @@
                             row: '0'
                         })
                         regId(self, regParam, resSum, returnSUBJECT);
-                        loading();
                     }
                 }).catch(e=>{
-                    loading();
                     self.$message.error(e);
                 });
             }
@@ -2579,7 +2577,7 @@
                     }
                 }else if(change.value === '非费用类'){
                     showApplyQuota(self, '否', '是');
-                    this.reimbursement_type.options.options = '业务借款;非业务借款;机械板块内借款(含超期续借审批);机械板块外部借款(含超期续借审批)、对外担保;关联公司往来款、集团融资款;支付各类代收款;代客户垫付各类融资、按揭款;退客户款项;支付采购货款-主机;支付采购货款-配件;支付采购运费-主机;支付采购运费-配件;月度工资(含绩效);固定资产采购;装修款;场地租赁;预付房租、物业';
+                    this.reimbursement_type.options.options = '业务借款;非业务借款;机械板块内借款(含超期续借审批);机械板块外部借款(含超期续借审批)、对外担保;关联公司往来款、集团融资款;支付各类代收款;代客户垫付各类融资、按揭款;退客户款项;支付采购货款-主机;支付采购货款-配件;支付采购运费-主机;支付采购运费-配件;月度工资(含绩效);固定资产采购;装修款;场地租赁;其他通用业务';
                     this.reimbursement_type.value = '业务借款';
                     this.apply_amount.edit = true;
                 }
@@ -3560,7 +3558,7 @@
                             case '固定资产采购':
                             case '装修款':
                             case '场地租赁':
-                            case '预付房租、物业':
+                            case '其他通用业务':
                             this.$message.error('付款审批类型与付款类型不匹配，请重新选择');
                             for(let aci = 0; aci < this.actions.length; aci++){
                                 this.actions[aci].disabled = false;

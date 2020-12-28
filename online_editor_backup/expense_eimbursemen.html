@@ -2129,6 +2129,7 @@
                     }
                     // 接口调用完之后调用克克接口获取招待费报销的金额
                     getFeeMoney(self, dataId, returnSUBJECT);
+                    loading();
                 }else{
                     loading();
                     self.$message.error('未获取到当前月份的数据');
@@ -2191,7 +2192,6 @@
                     list: paramArr,
                     position: position
                 };
-                let loading = this.$message.loading('数据加载中...', 0);
                 axios.post('http://113.12.64.58:88/api/ext/v1/expenses/getMoney', paramData).then(res=>{
                     if(res && res.errcode === 0){
                         let resDetail = res.data.detailList;
@@ -2210,10 +2210,8 @@
                             row: '0'
                         })
                         regId(self, regParam, resSum, returnSUBJECT);
-                        loading();
                     }
                 }).catch(e=>{
-                    loading();
                     self.$message.error(e);
                 });
             }

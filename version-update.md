@@ -1292,11 +1292,11 @@ modules\@cloudpivot\common\src\components\pc\enpty-header\images\songyu.png
                     <i class="search-icon"></i>
                     <p class="search-tip">数量统计表</p>
                 </div>
-                <a-button class="search-btn" @click="excelExport">Excel导出</a-button>
+                <a-button class="search-btn" size="small" @click="excelExport">Excel导出</a-button>
             </div>
             <table class="table-first" cellspacing="0" border="1">
                 <thead class="thead" style="color: rgba(255, 255, 58, 1);">
-                    <tr height="30">
+                    <tr height="25">
                         <th>姓名</th>
                         <th>累计参与</th>
                         <th>待办</th>
@@ -1305,7 +1305,7 @@ modules\@cloudpivot\common\src\components\pc\enpty-header\images\songyu.png
                     </tr>
                 </thead>
                 <tbody class="tbody" style="color: rgba(255, 255, 58, 1);">
-                    <tr height="30" v-for="(item, index) in returnCountDatas">
+                    <tr height="25" v-for="(item, index) in returnCountDatas">
                         <td>{{item.userName}}</td>
                         <td>{{item.allCount}}</td>
                         <td>{{item.count}}</td>
@@ -1324,7 +1324,7 @@ modules\@cloudpivot\common\src\components\pc\enpty-header\images\songyu.png
             </div>
             <table class="table-second" cellspacing="0" border="1" v-if="isWhitch">
                 <thead class="thead" style="color: rgba(255, 255, 58, 1);">
-                    <tr height="30">
+                    <tr height="25">
                         <th>发起人</th>
                         <th>审批节点</th>
                         <th>审批人</th>
@@ -1335,20 +1335,20 @@ modules\@cloudpivot\common\src\components\pc\enpty-header\images\songyu.png
                     </tr>
                 </thead>
                 <tbody class="tbody" style="color: rgba(255, 255, 58, 1);">
-                    <tr height="30" v-for="(item, index) in unDoneDatas.list">
+                    <tr height="25" v-for="(item, index) in unDoneDatas.list">
                         <td>{{item.originatorname}}</td>
                         <td>{{item.activityname}}</td>
                         <td>{{item.participantname}}</td>
-                        <td>{{item.receivetime}}</td>
-                        <td>{{secondsToHours(item.usedtime)}}</td>
                         <td>{{item.starttime}}</td>
-                        <td>{{item.finishtime}}</td>
+                        <td>{{secondsToHours(item.usedtime)}}</td>
+                        <td>{{item.instanceStartTime}}</td>
+                        <td>{{item.instanceFinishTime}}</td>
                     </tr>
                 </tbody>
             </table>
             <table class="table-second" cellspacing="0" border="1" v-else>
                 <thead class="thead" style="color: rgba(255, 255, 58, 1);">
-                    <tr height="30">
+                    <tr height="25">
                         <th>发起人</th>
                         <th>审批节点</th>
                         <th>审批人</th>
@@ -1357,12 +1357,12 @@ modules\@cloudpivot\common\src\components\pc\enpty-header\images\songyu.png
                     </tr>
                 </thead>
                 <tbody class="tbody" style="color: rgba(255, 255, 58, 1);">
-                    <tr height="30" v-for="(item, index) in unDoneDatas.list">
+                    <tr height="25" v-for="(item, index) in unDoneDatas.list">
                         <td>{{item.originatorname}}</td>
                         <td>{{item.activityname}}</td>
                         <td>{{item.participantname}}</td>
-                        <td>{{item.receivetime}}</td>
                         <td>{{item.starttime}}</td>
+                        <td>{{item.instanceStartTime}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -1437,7 +1437,7 @@ export default class SongyuReport extends Vue {
     searchPatten: string = '员工费用报销';
     searchPattenCode: string = 'test0917';
     searchName: string = '';
-    searchTimes: any[] = [moment('2020-01-01', 'YYYY-MM-DD'), moment('2020-12-31', 'YYYY-MM-DD')];
+    searchTimes: any[] = [moment(moment().startOf('month').format('YYYY-MM-DD'), 'YYYY-MM-DD'), moment(moment().endOf('month').format('YYYY-MM-DD'), 'YYYY-MM-DD')];
     selectNames: Array<any> = [];
     // 接口返回数据
     returnCountDatas: Array<any> = [];
@@ -1520,7 +1520,6 @@ export default class SongyuReport extends Vue {
         this.pageSize = pageSize;
     }
     onChangeTimes(){
-        console.log(this.searchTimes, this.searchTimes[0].format('YYYY-MM-DD'), this.searchTimes[1].format('YYYY-MM-DD'));
         this.postAmountStatistic(this.searchPattenCode, this.selectNames, this.searchTimes);
     }
     mounted () {
@@ -1533,7 +1532,6 @@ export default class SongyuReport extends Vue {
             index: 2,
             code: 'payment_approval'
         }];
-        console.log(this.searchTimes);
         this.postAmountStatistic(this.searchPattenCode, this.selectNames, this.searchTimes);
     }
     staffSelectChange(values:any[]){
@@ -1543,18 +1541,15 @@ export default class SongyuReport extends Vue {
         }));
         this.$emit('input',vals);
         this.postAmountStatistic(this.searchPattenCode, vals, this.searchTimes);
-        // console.log(vals, 'values', this.selectNames);
     }
     preClick(name, type){
         this.isWhitch = type;
-        console.log(111, name);
         this.searchName = name;
         this.viewUndoDatas(name, 10, 1);
     }
     hadClick(name, type){
         this.isWhitch = type;
         this.searchName = name;
-        console.log(222, name);
         this.viewDoneDatas(name, 10, 1);
     }
     // 请求后端接口，获取数量统计表数据
@@ -1572,8 +1567,8 @@ export default class SongyuReport extends Vue {
         let paramData = {
             type: type,
             participantName: participantName,
-            startTime: startTime,
-            finishTime: finishTime,
+            startTime: startTime + ' 00:00:01',
+            finishTime: finishTime + ' 23:59:59',
         }
         let that = this;
         return axios.post('http://113.12.64.58:88/api/ext/v1/sy/report/getCount', paramData).then((res:any) => {
@@ -1592,6 +1587,7 @@ export default class SongyuReport extends Vue {
     }
     // 数据统计表excel导出
     excelExport(){
+        let loadingExport:any = this.$message.loading('数据导出中，请稍等...', 0);
         return axios({
             method: 'post',
             url: 'http://113.12.64.58:88/api/ext/v1/sy/report/exportStatisticsReport',
@@ -1613,9 +1609,11 @@ export default class SongyuReport extends Vue {
             elink.click();
             URL.revokeObjectURL(elink.href); // 释放URL对象
             document.body.removeChild(elink);
+            loadingExport();
             this.$message.success('导出成功！', 1);
             // loading();
         }).catch(err => {
+            loadingExport();
             this.$message.error(err);
         });
     }
@@ -1639,8 +1637,8 @@ export default class SongyuReport extends Vue {
         let pageNo = pageno;
         let paramData = {
             type: type,
-            startTime: startTime,
-            finishTime: finishTime,
+            startTime: startTime + ' 00:00:01',
+            finishTime: finishTime + ' 23:59:59',
             participantName: participantName,
             pageSize: pageSize,
             pageNo: pageNo
@@ -1681,8 +1679,8 @@ export default class SongyuReport extends Vue {
         let pageNo = pageno;
         let paramData = {
             type: type,
-            startTime: startTime,
-            finishTime: finishTime,
+            startTime: startTime + ' 00:00:01',
+            finishTime: finishTime + ' 23:59:59',
             participantName: participantName,
             pageSize: pageSize,
             pageNo: pageNo
@@ -1736,15 +1734,15 @@ export default class SongyuReport extends Vue {
 // @import "../style/index.less";
 .application-box{
     width: 100%;
-    height: 100%;
+    height: 100vh;
     background: url('../assets/report-bg.jpeg') no-repeat center center;
     .search-area{
         width: 100%;
-        height: 120px;
+        height: 14vh;
         display: flex;
         flex-direction: row;
         justify-content: space-evenly;
-        margin-top: 20px;
+        padding-top: 15px;
         .search-patten{
             width: 25%;
             background-color: rgba(0, 0, 0, 0.3);
@@ -1757,7 +1755,7 @@ export default class SongyuReport extends Vue {
                 display: flex;
                 flex-direction: row;
                 justify-content:flex-start;
-                padding-left: 30px;
+                padding-left: 18px;
                 .search-icon{
                     display: block;
                     width: 4px;
@@ -1847,14 +1845,14 @@ export default class SongyuReport extends Vue {
     }
     .data-table{
         width: 95%;
-        height: 310px;
+        height: 29vh;
         background: rgba(0, 0, 0, 0.3);
-        margin: 25px auto 0;
+        margin: 15px auto 0;
         border-radius: 8px;
         overflow: hidden;
         .table-describe{
-            height: 32px;
-            line-height: 32px;
+            height: 20px;
+            line-height: 20px;
             margin: 10px 30px 10px 30px;
             display: flex;
             flex-direction: row;
@@ -1873,7 +1871,7 @@ export default class SongyuReport extends Vue {
                     border-radius: 3px;
                     margin-left: 4px;
                     margin-right: 8px;
-                    margin-top: 6px;
+                    // margin-top: 6px;
                 }
                 .search-tip{
                     color: rgba(255, 255, 58, 1);
@@ -1882,7 +1880,7 @@ export default class SongyuReport extends Vue {
         }
         .table-first{
             width: 94%;
-            height: 210px;
+            height: 20vh;
             color: white;
             margin: 0 auto;
             border-collapse: collapse;
@@ -1896,7 +1894,7 @@ export default class SongyuReport extends Vue {
             }
             tbody{
                 display: block;
-                max-height: 180px;
+                max-height: 18vh;
                 overflow-y: auto;
                 overflow-x: hidden;
                 
@@ -1908,14 +1906,14 @@ export default class SongyuReport extends Vue {
     }
     .data-table2{
         width: 95%;
-        height: 390px;
+        height: 38vh;
         background: rgba(0, 0, 0, 0.3);
-        margin: 25px auto 0;
+        margin: 15px auto 0;
         border-radius: 8px;
         overflow: hidden;
         .table-describe{
-            height: 32px;
-            line-height: 32px;
+            height: 20px;
+            line-height: 20px;
             margin: 10px 30px 10px 30px;
             display: flex;
             flex-direction: row;
@@ -1934,7 +1932,7 @@ export default class SongyuReport extends Vue {
                     border-radius: 3px;
                     margin-left: 4px;
                     margin-right: 8px;
-                    margin-top: 6px;
+                    // margin-top: 6px;
                 }
                 .search-tip{
                     color: rgba(255, 255, 58, 1);
@@ -1943,7 +1941,7 @@ export default class SongyuReport extends Vue {
         }
         .table-second{
             width: 94%;
-            height: 270px;
+            height: 23vh;
             color: white;
             margin: 0 auto;
             border-collapse: collapse;
@@ -1957,7 +1955,7 @@ export default class SongyuReport extends Vue {
             }
             tbody{
                 display: block;
-                max-height: 241px;
+                max-height: 19vh;
                 overflow-y: auto;
                 overflow-x: hidden;
             }

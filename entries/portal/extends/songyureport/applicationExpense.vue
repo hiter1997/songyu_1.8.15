@@ -328,8 +328,8 @@ export default class SongyuReport extends Vue {
         let paramData = {
             type: type,
             participantName: participantName,
-            startTime: startTime,
-            finishTime: finishTime,
+            startTime: startTime + ' 00:00:01',
+            finishTime: finishTime + ' 23:59:59',
         }
         let that = this;
         return axios.post('http://113.12.64.58:88/api/ext/v1/sy/report/getCount', paramData).then((res:any) => {
@@ -398,8 +398,8 @@ export default class SongyuReport extends Vue {
         let pageNo = pageno;
         let paramData = {
             type: type,
-            startTime: startTime,
-            finishTime: finishTime,
+            startTime: startTime + ' 00:00:01',
+            finishTime: finishTime + ' 23:59:59',
             participantName: participantName,
             pageSize: pageSize,
             pageNo: pageNo
@@ -440,8 +440,8 @@ export default class SongyuReport extends Vue {
         let pageNo = pageno;
         let paramData = {
             type: type,
-            startTime: startTime,
-            finishTime: finishTime,
+            startTime: startTime + ' 00:00:01',
+            finishTime: finishTime + ' 23:59:59',
             participantName: participantName,
             pageSize: pageSize,
             pageNo: pageNo
