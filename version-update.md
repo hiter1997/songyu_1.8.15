@@ -1978,3 +1978,9 @@ export default class SongyuReport extends Vue {
 }
 </style>
 ```
+30、entries\admin\src\components\apps\settings\permission-group-form.vue
+```
+// ygc-----start-----修复产品admin端应用设置-》管理权限=》权限设置最后一项被底部取消保存遮挡问题
+  margin-bottom: 75px;
+// ygc-----end-----修复产品admin端应用设置-》管理权限=》权限设置最后一项被底部取消保存遮挡问题
+```

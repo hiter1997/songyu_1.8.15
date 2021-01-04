@@ -931,7 +931,9 @@ export default class PermissionGroupForm extends Vue {
   }
 }
 .panel-content .permission-group-panel-wrapper:last-of-type .permission-group-panel-item:last-of-type{
-  margin-bottom: 0;
+  // ygc-----start-----修复产品admin端应用设置-》管理权限=》权限设置最后一项被底部取消保存遮挡问题
+  margin-bottom: 75px;
+  // ygc-----end-----修复产品admin端应用设置-》管理权限=》权限设置最后一项被底部取消保存遮挡问题
 }
 .permission-group-panel-wrapper:first-of-type{
   border-top: none;
