@@ -392,7 +392,7 @@
             <a-action-group>
             </a-action-group>
             <a-columns>
-                <a-association-form key="expenses_first" width="150" data-name="一级费用" data-data-item-name="expenses_first" data-display-formula="{pay_type} == '费用类'" data-schema-code="expenses_first" data-query-code="expenses_first" data-display-field="expenses_name" data-required-formula="'true'"></a-association-form>
+                <a-association-form key="expenses_first" width="150" data-name="一级费用" data-data-item-name="expenses_first" data-display-formula="{pay_type} == '费用类'" data-schema-code="expenses_first" data-query-code="expenses_first" data-display-field="expenses_name" data-conditions="belong_feetype:{reimbursement_type}" data-mobile-conditions="belong_feetype:{reimbursement_type}" data-required-formula="'true'"></a-association-form>
                 <a-association-form key="expenses_second" width="150" data-name="二级费用" data-data-item-name="expenses_second" data-display-formula="{pay_type} == '费用类'" data-schema-code="expenses_second" data-query-code="expenses_second" data-display-field="expenses_name" data-conditions="expenses_first:{reimbursement_detail_total_2.expenses_first}" data-mobile-conditions="expenses_first:{reimbursement_detail_total_2.expenses_first}" data-required-formula="'true'"></a-association-form>
                 <a-association-form key="expenses_third" width="150" data-name="三级费用" data-data-item-name="expenses_third" data-display-formula="{pay_type} == '费用类'" data-schema-code="expenses_third" data-query-code="expenses_third" data-display-field="expenses_name" data-conditions="expenses_second:{reimbursement_detail_total_2.expenses_second}" data-mobile-conditions="expenses_second:{reimbursement_detail_total_2.expenses_second}" data-required-formula="'true'"></a-association-form>
                 <a-number key="expenses_amount" width="150" data-name="标准额度" data-data-item-name="expenses_amount" data-readonly-formula="true" data-format="percentile"></a-number>
@@ -2564,7 +2564,7 @@
                     this.reimbursement_type.value = '普通报销-非行政类';
                     this.apply_amount.edit = false;
                     // 不用产品计算规则
-                    if((!procStatus && this.workflowInfo.activityName !== '填写申请单') || (this.workflowInfo.activityName === '填写申请单' && procStatus === 'PROCESSING')){
+                    if((!procStatus && this.workflowInfo.activityName !== '填写申请单') || (this.workflowInfo.activityName === '填写申请单' && (procStatus === 'PROCESSING' || procStatus === 'DRAFT'))){
                         this.reimbursement_detail_total_2.getColumnValueChange('review_amount').subscribe((change) => {
                             let count = 0;
                             if(change.value.length > 0){
@@ -2586,7 +2586,7 @@
                 if(change.value === '支付各类代收款' || this.pay_type.value === '费用类'){
                     this.apply_amount.edit = false;
                     // 不用产品计算规则
-                    if((!procStatus && this.workflowInfo.activityName !== '填写申请单') || (this.workflowInfo.activityName === '填写申请单' && procStatus === 'PROCESSING')){
+                    if((!procStatus && this.workflowInfo.activityName !== '填写申请单') || (this.workflowInfo.activityName === '填写申请单' && (procStatus === 'PROCESSING' || procStatus === 'DRAFT'))){
                         this.reimbursement_detail_total_2.getColumnValueChange('review_amount').subscribe((change) => {
                             let count = 0;
                             if(change.value.length > 0){
@@ -2612,7 +2612,7 @@
             viewQuota(self.temporary.value);
             console.log(data, '全局data', this);
             // 不用产品计算规则
-            if((!procStatus && this.workflowInfo.activityName !== '填写申请单') || (this.workflowInfo.activityName === '填写申请单' && procStatus === 'PROCESSING')){
+            if((!procStatus && this.workflowInfo.activityName !== '填写申请单') || (this.workflowInfo.activityName === '填写申请单' && (procStatus === 'PROCESSING' || procStatus === 'DRAFT'))){
                 if(this.pay_type.value === '费用类' || (this.pay_type.value === '非费用类' && this.reimbursement_type.value === '支付各类代收款')){
                     this.reimbursement_detail_total_2.getColumnValueChange('review_amount').subscribe((change) => {
                         let count = 0;

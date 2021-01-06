@@ -370,7 +370,7 @@
             <a-action-group>
             </a-action-group>
             <a-columns>
-                <a-association-form key="expenses_first" width="150" data-name="一级费用" data-name_i18n='{"en":"一级费用"}' data-schema-code="expenses_first" data-query-code="expenses_first" data-display-field="expenses_name" data-required-formula="'true'"></a-association-form>
+                <a-association-form key="expenses_first" width="150" data-name="一级费用" data-name_i18n='{"en":"一级费用"}' data-schema-code="expenses_first" data-query-code="expenses_first" data-display-field="expenses_name" data-conditions="belong_feetype:{reimbursement_type}" data-mobile-conditions="belong_feetype:{reimbursement_type}" data-required-formula="'true'"></a-association-form>
                 <a-association-form key="expenses_second" width="150" data-name="二级费用" data-name_i18n='{"en":"二级费用"}' data-schema-code="expenses_second" data-query-code="expenses_second" data-display-field="expenses_name" data-conditions="expenses_first:{reimbursement_detail_total.expenses_first}" data-mobile-conditions="expenses_first:{reimbursement_detail_total.expenses_first}" data-required-formula="'true'"></a-association-form>
                 <a-association-form key="expenses_third" width="150" data-name="三级费用" data-name_i18n='{"en":"三级费用"}' data-schema-code="expenses_third" data-query-code="expenses_third" data-display-field="expenses_name" data-conditions="expenses_second:{reimbursement_detail_total.expenses_second}" data-mobile-conditions="expenses_second:{reimbursement_detail_total.expenses_second}" data-required-formula="'true'"></a-association-form>
                 <a-number key="expenses_amount" width="150" data-name="标准额度" data-data-item-name="expenses_amount" data-format="percentile"></a-number>
